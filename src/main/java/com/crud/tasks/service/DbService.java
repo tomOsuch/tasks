@@ -5,6 +5,7 @@ import com.crud.tasks.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DbService {
@@ -19,7 +20,7 @@ public class DbService {
         return repository.findAll();
     }
 
-    public Task getTaskById(Long id) {
-        return repository.findAllById(id);
+    public Optional<Task> getTaskById(Long id) {
+        return repository.findById(id);
     }
 }

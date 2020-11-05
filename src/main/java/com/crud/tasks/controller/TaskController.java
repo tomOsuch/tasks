@@ -2,6 +2,7 @@ package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.exception.TaskNotFountException;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,7 @@ public class TaskController {
 
     @GetMapping("/getTask/{id}")
     public TaskDto getTask(@PathVariable Long id) {
-        Task task = service.getTaskById(id);
-        return taskMapper.mapToTaskDto(task);
+        return taskMapper.mapToTaskDto(service.getTaskById(id).orElseThrow(TaskNotFountException::new));
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
