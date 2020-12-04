@@ -20,9 +20,6 @@ public class TrelloController {
     private void getTrelloBoards() {
         List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
 
-//        trelloBoards.forEach(trelloBoardDto -> {
-//            System.out.println(trelloBoardDto.getId() + " " + trelloBoardDto.getName());
-//        });
         trelloBoards.stream()
                 .filter(trelloBoardDto -> trelloBoardDto.getId() != null)
                 .filter(trelloBoardDto -> trelloBoardDto.getName() != null)
