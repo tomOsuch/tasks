@@ -1,7 +1,7 @@
 package com.crud.tasks.controller;
 
 import com.crud.tasks.client.TrelloClient;
-import com.crud.tasks.domain.CreateTrelloCard;
+import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,7 @@ public class TrelloController {
 
         trelloBoards.stream()
                 .filter(trelloBoardDto -> trelloBoardDto.getId() != null)
-                .filter(trelloBoardDto -> trelloBoardDto.getName() != null)
-                .filter(trelloBoardDto -> trelloBoardDto.getName().contains("Kodilla"))
+                .filter(trelloBoardDto -> trelloBoardDto.getName() != null && trelloBoardDto.getName().contains("Kodilla"))
                 .forEach(trelloBoardDto -> {
                     System.out.println(trelloBoardDto.getId() + " - " + trelloBoardDto.getName());
                     System.out.println("This board contains lists: ");
@@ -34,7 +33,7 @@ public class TrelloController {
     }
 
     @PostMapping("createTrelloCard")
-    public CreateTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
+    public CreatedTrelloCard createTrelloCard(@RequestBody TrelloCardDto trelloCardDto) {
         return trelloClient.createNewCard(trelloCardDto);
     }
 }

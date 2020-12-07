@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreateTrelloCard {
+public class CreatedTrelloCard {
 
     @JsonProperty("id")
     private String id;
