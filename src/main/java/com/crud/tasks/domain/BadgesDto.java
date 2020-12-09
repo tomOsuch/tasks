@@ -9,7 +9,7 @@ import lombok.Data;
 public class BadgesDto {
 
     @JsonProperty("votes")
-    private int votes;
+    private Integer votes;
     @JsonProperty("attachmentsByTypeDto")
     private AttachmentsByTypeDto attachmentsByTypeDto;
 }
