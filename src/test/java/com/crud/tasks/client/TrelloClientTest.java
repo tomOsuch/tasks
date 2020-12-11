@@ -96,8 +96,7 @@ class TrelloClientTest {
     @Test
     void shouldReturnEmptyList() throws URISyntaxException {
         //Given
-        String url = "http://test.com/members/test/boards?key=test&token=test&fields=name,id&lists=all";
-        URI uri = new URI(url);
+        URI uri = new URI("http://test.com/members/test/boards?key=test&token=test&fields=name,id&lists=all");
         when(restTemplate.getForObject(uri,TrelloBoardDto[].class)).thenReturn(null);
 
         //When
@@ -105,6 +104,5 @@ class TrelloClientTest {
 
         //Then
         assertEquals(0,fetchedTrelloBoards.size());
-        assertEquals(Collections.emptyList(),fetchedTrelloBoards);
     }
 }
