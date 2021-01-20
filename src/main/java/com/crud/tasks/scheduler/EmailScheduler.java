@@ -25,17 +25,12 @@ public class EmailScheduler {
                         adminConfig.getAdminMail(),
                         null,
                         SUBJECT,
-                        messageTasksCount()
+                        messageTasksCount(taskRepository.count())
                 )
         );
     }
 
-    private String messageTasksCount() {
-        long size = taskRepository.count();
-        if (size == 1) {
-            return "Currentlu in database you got: " + size + " task";
-        } else {
-            return "Currentlu in database you got: " + size + " tasks";
-        }
+    private String messageTasksCount(long size) {
+        return size == 1 ? "Currentlu in database you got: " + size + " task" : "Currentlu in database you got: " + size + " tasks";
     }
 }
