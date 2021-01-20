@@ -17,7 +17,8 @@ public class EmailScheduler {
     private final TaskRepository taskRepository;
     private final AdminConfig adminConfig;
 
-    @Scheduled(cron = "0 0 10 * * *")
+    //@Scheduled(cron = "0 0 10 * * *")
+    @Scheduled(fixedDelay = 10000)
     public void sendInformationEmail() {
 
         simpleEmailService.send(
@@ -31,6 +32,6 @@ public class EmailScheduler {
     }
 
     private String messageTasksCount(long size) {
-        return size == 1 ? "Currentlu in database you got: " + size + " task" : "Currentlu in database you got: " + size + " tasks";
+        return String.format("Currently in database you got:", size == 1 ? size + " task" : size + " tasks");
     }
 }
