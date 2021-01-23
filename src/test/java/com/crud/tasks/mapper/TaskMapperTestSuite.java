@@ -26,6 +26,7 @@ public class TaskMapperTestSuite {
         assertEquals(tasks.get(0).getTitle(), taskDtoList.get(0).getTitle());
         assertEquals(tasks.get(0).getId(), taskDtoList.get(0).getId());
         assertEquals(tasks.get(0).getContent(), taskDtoList.get(0).getContent());
+        assertEquals(tasks.size(), taskDtoList.size());
     }
 
     @Test
