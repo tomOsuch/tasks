@@ -44,4 +44,30 @@ public class DbServiceTest {
         //Then
         assertTrue(resultFindById);
     }
+
+    @Test
+    public void testSaveTask() {
+        //Given
+        Task task = new Task(1L, "Test_task", "test_task_content");
+        when(taskRepository.save(task)).thenReturn(task);
+        //When
+        Task resultTask = dbService.saveTask(task);
+        //Then
+        assertEquals(task.getId(), resultTask.getId());
+        assertEquals(task.getTitle(), resultTask.getTitle());
+        assertEquals(task.getContent(), resultTask.getContent());
+    }
+
+    @Test
+    public void testDeleteByIdTask() {
+        //Given
+        Task task = new Task(1L, "Test_task", "test_task_content");
+        Long id = task.getId();
+        List<Task> tasks = List.of(task);
+
+        //When
+
+        //Then
+
+    }
 }
