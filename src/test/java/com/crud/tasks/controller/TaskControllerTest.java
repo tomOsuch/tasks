@@ -19,8 +19,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.hamcrest.Matchers.is;
 
 @SpringJUnitWebConfig
 @WebMvcTest(TaskController.class)
@@ -45,10 +49,10 @@ public class TaskControllerTest {
                 .perform(MockMvcRequestBuilders
                         .get("/v1/task/getTasks")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title", Matchers.is("Test_title")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].content", Matchers.is("Content_test")));
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[0].title", is("Test_title")))
+                .andExpect(jsonPath("$[0].content", is("Content_test")));
     }
 
     @Test
@@ -64,9 +68,9 @@ public class TaskControllerTest {
                         .get("/v1/task/getTask/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("title_test")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("content_test")));
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("title_test")))
+                .andExpect(jsonPath("$.content", is("content_test")));
     }
 
     @Test
@@ -78,7 +82,9 @@ public class TaskControllerTest {
                 .perform(MockMvcRequestBuilders
                         .delete("/v1/task/deleteTask/1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is(200));
+                .andExpect(status().isOk());
+
+        verify(dbService, times(1)).deleteTask(1L);
     }
 
     @Test
@@ -99,9 +105,9 @@ public class TaskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id", Matchers.is(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.title", Matchers.is("title_test")))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.content", Matchers.is("content_test")));
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("title_test")))
+                .andExpect(jsonPath("$.content", is("content_test")));
     }
 
     @Test
@@ -122,6 +128,8 @@ public class TaskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("UTF-8")
                         .content(jsonContent))
-                .andExpect(MockMvcResultMatchers.status().is(200));
+                .andExpect(status().isOk());
+
+        verify(dbService, times(1)).saveTask(task);
     }
 }
