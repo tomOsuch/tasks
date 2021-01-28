@@ -18,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
@@ -100,12 +101,15 @@ public class TrelloFacadeTest {
     public void testCreateCard() {
         //Given
         TrelloCardDto trelloCardDto = new TrelloCardDto("test_cart_name", "test_card_description", "top", "test_idList");
-        CreatedTrelloCardDto createdTrelloCardDto = null;
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("2", "name", "shortUrl", null);
 
         when(trelloFacade.createCard(trelloCardDto)).thenReturn(createdTrelloCardDto);
         //When
         CreatedTrelloCardDto resultCreateTrelloCardDto = trelloFacade.createCard(trelloCardDto);
         //Then
-        assertNull(resultCreateTrelloCardDto);
+        assertEquals("2", resultCreateTrelloCardDto.getId());
+        assertEquals("name", resultCreateTrelloCardDto.getName());
+        assertEquals("shortUrl", resultCreateTrelloCardDto.getShortUrl());
+        assertNull(resultCreateTrelloCardDto.getBadges());
     }
 }

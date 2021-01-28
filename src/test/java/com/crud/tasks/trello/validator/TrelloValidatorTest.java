@@ -19,7 +19,7 @@ public class TrelloValidatorTest {
     @Test
     public void testValidatorTrelloBoards() {
         //Given
-        TrelloList trelloList = new TrelloList("1", "Trello_list", false);
+        TrelloList trelloList = new TrelloList("1", "Trello_list_name", false);
         List<TrelloList> trelloLists = List.of(trelloList);
 
         TrelloBoard trelloBoard = new TrelloBoard("1", "Trello_board_test", trelloLists);
@@ -29,4 +29,16 @@ public class TrelloValidatorTest {
         //Then
         assertEquals(1, validTrelloBoard.size());
     }
+
+    @Test
+    public void testNotValidatorTrelloBoards() {
+        //Given
+        List<TrelloList> trelloLists = List.of(new TrelloList("1", "my_list", false));
+        List<TrelloBoard> trelloBoards = List.of(new TrelloBoard("1", "test", trelloLists));
+        //When
+        List<TrelloBoard> validBoards = trelloValidator.validateTrelloBoards(trelloBoards);
+        //Then
+        assertEquals(0, validBoards.size());
+    }
+
 }
