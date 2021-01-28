@@ -2,10 +2,7 @@ package com.crud.tasks.service;
 
 import com.crud.tasks.client.TrelloClient;
 import com.crud.tasks.config.AdminConfig;
-import com.crud.tasks.dto.CreatedTrelloCardDto;
-import com.crud.tasks.dto.TrelloBoardDto;
-import com.crud.tasks.dto.TrelloCardDto;
-import com.crud.tasks.dto.TrelloListDto;
+import com.crud.tasks.dto.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -65,7 +62,8 @@ public class TrelloServiceTest {
     public void testCreateTrelloCard() {
         //Given
         TrelloCardDto trelloCardDto = new TrelloCardDto("name_test", "description", "tom", "1");
-        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("2", "name", "shortUrl", null);
+        BadgesDto badgesDto = new BadgesDto();
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("2", "name", "shortUrl", badgesDto);
         when(adminConfig.getAdminMail()).thenReturn("test@test.com");
         when(trelloClient.createNewCard(trelloCardDto)).thenReturn(createdTrelloCardDto);
         //When
@@ -74,7 +72,7 @@ public class TrelloServiceTest {
         assertEquals("2", resultTrelloCardDto.getId());
         assertEquals("name", resultTrelloCardDto.getName());
         assertEquals("shortUrl", resultTrelloCardDto.getShortUrl());
-        assertNull(resultTrelloCardDto.getBadges());
+        assertEquals(createdTrelloCardDto.getBadges(), resultTrelloCardDto.getBadges());
 
         verify(emailService, times(1)).send(any());
     }

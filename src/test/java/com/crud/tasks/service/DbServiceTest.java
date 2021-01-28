@@ -12,7 +12,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class DbServiceTest {
@@ -58,4 +58,14 @@ public class DbServiceTest {
         assertEquals(task.getContent(), resultTask.getContent());
     }
 
+    @Test
+    public void testDeleteById() {
+        //Given
+        Task task = new Task(1L, "Test_task", "Test_content");
+        Long id = task.getId();
+        //When
+        dbService.deleteTask(id);
+        //Then
+        verify(taskRepository, times(1)).deleteById(id);
+    }
 }
