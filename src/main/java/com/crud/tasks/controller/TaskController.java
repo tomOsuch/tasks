@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/task")
+@RequestMapping("/v1")
 public class TaskController {
 
     private final DbService service;
@@ -26,19 +26,19 @@ public class TaskController {
         this.taskMapper = taskMapper;
     }
 
-    @GetMapping(value = "getTasks")
+    @GetMapping(value = "/tasks")
     public List<TaskDto> getTasks() {
         List<Task> tasks = service.getAllTasks();
         return taskMapper.mapToTaskDtoList(tasks);
     }
 
-    @GetMapping("/getTask/{id}")
+    @GetMapping("/tasks/{id}")
     public TaskDto getTask(@PathVariable Long id) {
         return taskMapper.mapToTaskDto(service.getTaskById(id).orElseThrow(TaskNotFoundException::new));
     }
 
-    @DeleteMapping("/deleteTask")
-    public void deleteTask(@RequestParam Long id) {
+    @DeleteMapping("/tasks/{id}")
+    public void deleteTask(@PathVariable Long id) {
         try {
             service.deleteTask(id);
         } catch (EmptyResultDataAccessException e) {
@@ -46,14 +46,14 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/updateTask")
+    @PutMapping("/tasks")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         Task saveTask = service.saveTask(task);
         return taskMapper.mapToTaskDto(saveTask);
     }
 
-    @PostMapping(value = "/createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/tasks", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
